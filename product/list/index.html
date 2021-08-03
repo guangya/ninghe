@@ -28,7 +28,7 @@
                 </el-header>
                 <el-container>
                     <el-aside id="aside" width="180px">
-                        <el-tree class="filter-tree" :data="categories" :props="{label: 'name',children:'subCategoryList'}" default-expand-all ref="tree"></el-tree>
+                        <el-tree class="filter-tree" @node-click="handleCategoryChange" :data="categories" :props="{label: 'name',children:'subCategoryList'}" default-expand-all ref="tree"></el-tree>
                         <ul style="display: none;">
                             <li v-for="category of categories" :key="category.id">
                                 <a class="category-group" href="#">

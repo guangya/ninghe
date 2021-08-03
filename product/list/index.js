@@ -7,7 +7,8 @@ const vm = new Vue({
         sourceLoading: false,
 		db: window.database.get(),
 		categories: [],
-		productList: []
+		productList: [],
+		categoryId: null
 	},
 	mounted: async function() {
         const vm = this;
@@ -15,7 +16,7 @@ const vm = new Vue({
 		const categories = await vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME).orderBy('ordering').toArray();
 		vm.categories = categories;
 		
-		vm.handleProductSearch();
+		// vm.handleProductSearch();
 		vm.update();
 	},
 	methods: {
@@ -27,8 +28,14 @@ const vm = new Vue({
 			}).catch(() => {});
         },
 		handleProductSearch: async function () {
-			const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).limit(20).toArray();
+			const where = {};
+			if (this.categoryId) where['groupID'] = this.categoryId;
+			const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).where(where).limit(20).toArray();
 			vm.productList = productList;
+		},
+		handleCategoryChange: function(category) {
+			this.categoryId = category.id;
+			this.handleProductSearch();
 		},
 		categoryUpgrade: async function(updates) {
 			const vm = this;
