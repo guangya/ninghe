@@ -1,0 +1,9 @@
+{
+    "product": [
+        {"link": "data/product/1.json", "version": 1627976465426},
+        {"link": "data/product/2.json", "version": 1627976465426}
+    ],
+    "category": [
+        {"link": "data/product/categories.json", "version": 1627976465426}
+    ]
+}

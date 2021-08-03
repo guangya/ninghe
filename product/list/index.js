@@ -1,3 +1,6 @@
+const STORAGE_PRODUCT_DATA_VERSION = "product_data_version";
+const STORAGE_CATEGORY_DATA_VERSION = "category_data_version";
+
 const vm = new Vue({
 	el: '#app',
 	data: {
@@ -8,15 +11,15 @@ const vm = new Vue({
 	},
 	mounted: async function() {
         const vm = this;
-		await vm.productCategoriesUpgrade();
 
 		const categories = await vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME).orderBy('ordering').toArray();
 		vm.categories = categories;
+		
 
-		await vm.productsUpgrade();
-
-		const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).limit(20).toArray();
-		vm.productList = productList;
+		// vm.productsUpgrade();
+		// vm.productCategoriesUpgrade();
+		// vm.handleProductSearch();
+		vm.update();
 	},
 	methods: {
         handleLinkCopy: function(productId) {
@@ -26,7 +29,12 @@ const vm = new Vue({
 				vm.$message({'type': 'success', 'message': '链接已复制'});
 			}).catch(() => {});
         },
-		productCategoriesUpgrade: async function() {
+		handleProductSearch: function () {
+			// const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).limit(20).toArray();
+			// vm.productList = productList;
+
+		},
+		productCategoriesUpgrade: async function(dataList) {
 			const vm = this;
 			const response = await axios.get('../data/categories.json');
 			if ( response.status != 200 ) return vm.$message({'type': 'error', 'message': '数据加载失败'});
@@ -36,16 +44,49 @@ const vm = new Vue({
 			const result = await cateTable.bulkPut(data);
 	
 		},
-		productsUpgrade: async function () {
+		productUpgrade: async function (updates) {
 			const vm = this;
-			const response = await axios.get('../data/list/2.json');
-			if ( response.status != 200 ) return vm.$message({'type': 'error', 'message': '数据加载失败'});
-
-			const data = response.data;
 			const productTable = vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME);
-			for(let item of data) item.id = item.productID;
-			// console.log('data:', data);
-			const result = await productTable.bulkPut(data);
+			// localStorage 中的键值对总是以字符串的形式存储，这也意味值getItem得到的总是字符串
+			const localVersion = parseInt(window.localStorage.getItem(STORAGE_PRODUCT_DATA_VERSION));
+			let newVersion = localVersion;
+
+			for(const update of updates) {
+				// 当客户端第一次执行更新请求时，localVersion为null，这种情况下应该更新所有数据
+				if (localVersion || update.version <= localVersion) continue;
+				
+				const response = await axios.get('../../' + update.link);
+				if ( response.status != 200 ) return vm.$message({'type': 'error', 'message': '数据加载失败'});
+	
+				const data = response.data;
+				
+				for(let item of data) item.id = item.productID;
+				const result = await productTable.bulkPut(data);
+
+				// 更新完成后，需要在本地保存更新数据的最大版本号
+				if(update.version > newVersion) newVersion = update.version;
+			}
+
+			window.localStorage.setItem(STORAGE_PRODUCT_DATA_VERSION, newVersion);
+		},
+		update: async function() {
+			const productDataVersion = window.localStorage.getItem(STORAGE_PRODUCT_DATA_VERSION);
+			const response = await axios.get('../../updates.json');
+			const updates = response.data;
+
+			this.productUpgrade(updates.product);
+
+			// const productUpdates = {list: [], version: 0};
+			// for(const update of updates.product) {
+			// 	if (update.version <= productDataVersion) continue;
+			// 	productUpdates.list.push(update.link);
+			// 	if(update.version > productUpdates.version) productUpdates.version = update.version;
+			// }
+			// // 无需执行更新
+			// if (productListUpdates.length > 0) this.productUpgrade();
+
+			// this.productCategoriesUpgrade(updates.categoryList);
+			// this.productListUpgrade(updates.productList);
 		}
 	}
 });
