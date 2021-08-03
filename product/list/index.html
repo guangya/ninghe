@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/element-ui/2.15.3/theme-chalk/index.min.css">
+		<link rel="stylesheet" href="index.css">
+		<title>产品列表</title>
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <el-container>
+                <el-header id="header" height="36px">
+                    <div class="site-logo">产品分类</div>
+                    <div class="search-bar">
+                        <el-form :inline="true" size="mini">
+                            <el-form-item label="标题">
+                                <el-input type="text" placeholder="例如：十二星座"></el-input>
+                            </el-form-item>
+                            <el-form-item label="货号">
+                                <el-input type="text" placeholder="例如：120126"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary">搜索</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-header>
+                <el-container>
+                    <el-aside id="aside" width="180px">
+                        <ul>
+                            <li>
+                                <a class="category-group" href="#">
+                                    <span>冰雪奇缘</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a class="category-item" href="#">
+                                            <span>冰雪奇缘1</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="category-item" href="#">
+                                            <span>冰雪奇缘2</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="category-group" href="#">
+                                    <span>儿童饰品</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a class="category-item" href="#">
+                                            <span>芝麻街Sesame Street</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="category-item" href="#">
+                                            <span>哪吒之魔童降世</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </el-aside>
+                    <el-main id="main">
+                        <el-card>
+                            <div slot="header">
+                                <div class="product-subject">速卖通wish热销经典十二星座时光宝石手链 创意古青复古铜管手环</div>
+                                <div class="operations">
+                                    <a href="#" title="查看产品详情"><i class="el-icon-view"></i></a>
+                                    <a href="#" title="加入收藏"><i class="el-icon-star-off"></i></a>
+                                    <a href="#" title="复制产品链接"><i class="el-icon-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="detail-wrapper">
+                                <div class="product-gallery">
+                                    <el-image src="https://cbu01.alicdn.com/img/ibank/2019/352/591/10949195253_1310191283.230x230.jpg" />
+                                </div>
+                                <div class="product-property">
+                                    <ul>
+                                        <li>
+                                            <span>货号：</span>
+                                            <span>120238</span>
+                                        </li>
+                                        <li>
+                                            <span>价格：</span>
+                                            <span>2.5 ~ 2.8元</span>
+                                        </li>
+                                        <li>
+                                            <span>种类：</span>
+                                            <span>手链</span>
+                                        </li>
+                                        <li>
+                                            <span>风格：</span>
+                                            <span>复古</span>
+                                        </li>
+                                        <li>
+                                            <span>样式：</span>
+                                            <span>男女通用</span>
+                                        </li>
+                                        <li>
+                                            <span>材质：</span>
+                                            <span>皮质</span>
+                                        </li>
+                                        <li>
+                                            <span>样式：</span>
+                                            <span>男女通用</span>
+                                        </li>
+                                        <li>
+                                            <span>造型：</span>
+                                            <span>星座</span>
+                                        </li>
+                                        <li>
+                                            <span>包装：</span>
+                                            <span>独立包装</span>
+                                        </li>
+                                        <li>
+                                            <span>图片包：</span>
+                                            <span><a href="#"><i class="el-icon-download"></i></a></span>
+                                        </li>
+                                        <!-- <li>
+                                            <span>主要销售区域：</span>
+                                            <span>东南亚,欧洲,中东,北美,南美,非洲</span>
+                                        </li>
+                                        <li>
+                                            <span>主要下游平台：</span>
+                                            <span>wish,亚马逊,速卖通,LAZADA,ebay</span>
+                                        </li> -->
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-main>
+                </el-container>
+            </el-container>
+        </div>
+        <script type="text/javascript" src="https://cdn.staticfile.org/vue/2.6.14/vue.min.js"></script>
+        <script type="text/javascript" src="https://cdn.staticfile.org/element-ui/2.15.3/index.min.js"></script>
+        <script type="text/javascript" src="https://d7c9cc6d-2d20-40db-a104-9376edc3ed86-8080-9auejyw6.xide.aliyun.com/"></script>
+        <script type="text/javascript" src="../common/common.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
+</html>

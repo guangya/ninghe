@@ -1,0 +1,25 @@
+*{margin:0; padding:0; font-size:12px; font: 12px/1.5 'Hiragino Sans GB',Tahoma,Arial,"\5b8b\4f53",sans-serif}
+html,body{width:100%; overflow-x:hidden;}
+a{text-decoration:none; color:black;}
+li{list-style:none;}
+
+#company-info-wrapper{display:none;}
+#company-banner{height: 120px;}
+
+#top-nav-bar-wrapper{width:100%; background-color: #4B2300}
+#top-nav-bar-wrapper .top-nav-bar{width: 950px; margin:0 auto; font-weight: bold; font-size: 14px;}
+#top-nav-bar-wrapper .nav-item{display: inline-block; }
+#top-nav-bar-wrapper .top-nav-bar ul{padding-left: 21px; overflow: hidden;}
+#top-nav-bar-wrapper .top-nav-bar li{width: 100px; text-align:center;}
+#top-nav-bar-wrapper .top-nav-bar li a{height: 30px; line-height: 30px; color: #fff; font-size: 14px; font-weight: bold;}
+#top-nav-bar-wrapper .top-nav-bar li:hover{background-color: #2C1201;}
+
+#content-header-wrapper .content-header{width: 950px; overflow: hidden; margin:0 auto; display:flex; padding: 14px 0;}
+#content-header-wrapper .detail-subject{flex-grow:1; font-size: 18px; color: #222;}
+#content-header-wrapper .detail-service-desc{line-height: 24px; color: #aaa;}
+#content-header-wrapper .reportinfo-button{line-height: 24px; width: 30px;color: #aaa; text-align: right;}
+
+
+#detail-info-wrapper {width: 950px; margin: 0 auto; display:flex; min-height: 524px;}
+#detail-info-wrapper .detail-gallery{width: 380px;}
+#detail-info-wrapper .detail-property{width: 640px; margin-left: 15px; }
