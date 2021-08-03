@@ -8,12 +8,12 @@ const vm = new Vue({
 	},
 	mounted: async function() {
         const vm = this;
-		await vm.productCategoriesUpgrade();
+		// await vm.productCategoriesUpgrade();
 
 		const categories = await vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME).orderBy('ordering').toArray();
 		vm.categories = categories;
 
-		await vm.productsUpgrade();
+		// await vm.productsUpgrade();
 
 		const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).limit(20).toArray();
 		vm.productList = productList;
