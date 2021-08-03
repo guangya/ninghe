@@ -3,15 +3,14 @@
 // ------------------------------------------------------------------------------------
 window.database = {
     PRODUCT_CATEGORIES_COLLECTION_NAME: 'productCategories',
+    PRODUCT_LIST_COLLECTION_NAME: 'productList',
     defines: {
-        website: [
+        "website-ninghe": [
             {
                 version: 1,
                 schema: {
                     productCategories: '&id,name,shapeText,ordering',
-                    productList: '&id,sku,&child',
-                    compBatches: 'id,date,insertTime',
-                    compImages: '++id,batchId,sku,index,rowId,pageId,height,insertTime' // [batchId+pageId]
+                    productList: '&id,subject,productCargoNumber,categoryID,categoryName,groupID,modifyTime'
                 },
                 upgrade: function (tx) {
                     // 官网例子有错误，这里必须toCollection，否则会报modify is not a function错误
@@ -23,7 +22,7 @@ window.database = {
         ]
     },
     instances: [],
-    get: function (dbName='website', tables = {}, version = 1) {
+    get: function (dbName='website-ninghe', tables = {}, version = 1) {
         let _this = this;
         if ((dbName in _this.instances) === false) {
             const db = new Dexie(dbName);

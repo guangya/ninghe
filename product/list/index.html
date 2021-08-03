@@ -27,22 +27,23 @@
                 </el-header>
                 <el-container>
                     <el-aside id="aside" width="180px">
-                        <ul>
-                            <li>
+                        <el-tree class="filter-tree" :data="categories" :props="{label: 'name',children:'subCategoryList'}" default-expand-all ref="tree"></el-tree>
+                        <ul style="display: none;">
+                            <li v-for="category of categories" :key="category.id">
                                 <a class="category-group" href="#">
-                                    <span>冰雪奇缘</span>
+                                    <span>{{category.name}}</span>
                                 </a>
                                 <ul>
-                                    <li>
+                                    <li v-for="subCategory of category.subCategoryList">
                                         <a class="category-item" href="#">
-                                            <span>冰雪奇缘1</span>
+                                            <span>{{subCategory.name}}</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <a class="category-item" href="#">
                                             <span>冰雪奇缘2</span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </li>
                             <li>
@@ -65,7 +66,75 @@
                         </ul>
                     </el-aside>
                     <el-main id="main">
-                        <el-card>
+                        <el-card v-for="product of productList">
+                            <div slot="header">
+                                <div class="product-subject">{{product.subject}}</div>
+                                <div class="operations">
+                                    <a :href="'https://detail.1688.com/offer/' + product.productID + '.html?from=pages'" target="_blank" title="查看产品详情"><i class="el-icon-view"></i></a>
+                                    <a href="#" title="加入收藏"><i class="el-icon-star-off"></i></a>
+                                    <a href="javascript:;" @click="handleLinkCopy(product.productID)" title="复制产品链接"><i class="el-icon-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="detail-wrapper">
+                                <div class="product-gallery">
+                                    <el-image :src="'https://cbu01.alicdn.com/' + product.image.images[0] + '_230x230.jpg'" class=""></el-image><!--https://cbu01.alicdn.com/img/ibank/2019/352/591/10949195253_1310191283.230x230.jpg-->
+                                </div>
+                                <div class="product-property">
+                                    <ul>
+                                        <li>
+                                            <span>货号：</span>
+                                            <span>{{product.productCargoNumber}}</span>
+                                        </li>
+                                        <li>
+                                            <span>价格：</span>
+                                            <span>{{product.referencePrice}}元</span>
+                                        </li>
+                                        <li>
+                                            <span>种类：</span>
+                                            <span>{{product.categoryName}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[0].attributeName}}：</span>
+                                            <span>{{product.attributes[0].value}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[7].attributeName}}：</span>
+                                            <span>{{product.attributes[7].value}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[1].attributeName}}：</span>
+                                            <span>{{product.attributes[1].value}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[8].attributeName}}：</span>
+                                            <span>{{product.attributes[8].value}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[6].attributeName}}：</span>
+                                            <span>{{product.attributes[6].value}}</span>
+                                        </li>
+                                        <li>
+                                            <span>{{product.attributes[10].attributeName}}：</span>
+                                            <span>{{product.attributes[10].value}}</span>
+                                        </li>
+                                        <!-- <li>
+                                            <span>图片包：</span>
+                                            <span><a href="#"><i class="el-icon-download"></i></a></span>
+                                        </li> -->
+                                        <!-- <li>
+                                            <span>主要销售区域：</span>
+                                            <span>东南亚,欧洲,中东,北美,南美,非洲</span>
+                                        </li>
+                                        <li>
+                                            <span>主要下游平台：</span>
+                                            <span>wish,亚马逊,速卖通,LAZADA,ebay</span>
+                                        </li> -->
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </el-card>
+                        <el-card style="display: none;">
                             <div slot="header">
                                 <div class="product-subject">速卖通wish热销经典十二星座时光宝石手链 创意古青复古铜管手环</div>
                                 <div class="operations">
@@ -139,8 +208,9 @@
         </div>
         <script type="text/javascript" src="https://cdn.staticfile.org/vue/2.6.14/vue.min.js"></script>
         <script type="text/javascript" src="https://cdn.staticfile.org/element-ui/2.15.3/index.min.js"></script>
-        <script type="text/javascript" src="https://d7c9cc6d-2d20-40db-a104-9376edc3ed86-8080-9auejyw6.xide.aliyun.com/"></script>
-        <script type="text/javascript" src="../common/common.js"></script>
+        <script type="text/javascript" src="https://cdn.staticfile.org/dexie/3.0.3/dexie.min.js"></script>
+        <script type="text/javascript" src="https://cdn.staticfile.org/axios/0.21.1/axios.min.js"></script>
+        <script type="text/javascript" src="../../common/common.js"></script>
         <script type="text/javascript" src="index.js"></script>
     </body>
 </html>
