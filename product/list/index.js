@@ -10,6 +10,8 @@ const vm = new Vue({
 		productList: [],
 		categoryId: null,
 		subject: null,
+		page: 1,
+		limit: 20,
 		searchParams: {
 			groupID: null,
 			productCargoNumber: null,
@@ -35,8 +37,11 @@ const vm = new Vue({
 				vm.$message({'type': 'success', 'message': '链接已复制'});
 			}).catch(() => {});
         },
-		handleProductSearch: async function () {
+		handleProductSearch: async function (infiniteScroll=false) {
 			const vm = this;
+			// 如果不是滚动加载，则把page初始化为1
+			if (!infiniteScroll) vm.page = 1;
+
 			const where = {};
 			for (const [key, value] of Object.entries(this.searchParams)) {
 				if (value != null && value != '') where[key] = value;
@@ -46,8 +51,10 @@ const vm = new Vue({
 			if (Object.keys(where).length == 0) where['status'] = 'published';
 			const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).where(where).filter(function(product) {
 				return vm.subject ? product.subject.indexOf(vm.subject) !== -1 : true;
-			}).limit(20).toArray();
-			vm.productList = productList;
+			}).offset((vm.page -1) * vm.limit).limit(vm.limit).toArray();
+
+			// 
+			vm.productList = !infiniteScroll ? productList : vm.productList.concat(productList); ;
 		},
 		handleCategoryChange: function(category) {
 			this.searchParams.groupID = category.id;
@@ -69,6 +76,10 @@ const vm = new Vue({
 			await productTable.where({'id': product.id}).modify({'favorite': 0});
 			product.favorite = 0;
 			this.$forceUpdate();
+		},
+		handleInfiniteScroll: async function() {
+			this.page += 1;
+			this.handleProductSearch(true);
 		},
 		categoryUpgrade: async function(updates) {
 			const vm = this;
