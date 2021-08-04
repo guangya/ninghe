@@ -10,7 +10,7 @@ window.database = {
                 version: 1,
                 schema: {
                     productCategories: '&id,name,shapeText,ordering',
-                    productList: '&id,subject,productCargoNumber,categoryID,categoryName,*groupID,modifyTime,status'
+                    productList: '&id,subject,productCargoNumber,categoryID,categoryName,*groupID,modifyTime,status,favorite'
                 },
                 upgrade: function (tx) {
                     // 官网例子有错误，这里必须toCollection，否则会报modify is not a function错误
