@@ -13,7 +13,7 @@ const vm = new Vue({
 		searchParams: {
 			groupID: null,
 			productCargoNumber: null,
-			// subject: null
+			favorite: null
 		},
 		searchParamsBackup: null
 	},
