@@ -67,7 +67,8 @@
                                 <div class="product-subject" :title="product.subject">{{product.subject}}</div>
                                 <div class="operations">
                                     <a :href="'https://detail.1688.com/offer/' + product.productID + '.html?from=pages'" target="_blank" title="查看产品详情"><i class="el-icon-view"></i></a>
-                                    <a href="#" title="加入收藏"><i class="el-icon-star-off"></i></a>
+                                    <a href="javascript:;" @click="handleFavorite(product)" title="加入收藏" v-if="!product.favorite"><i class="el-icon-star-off"></i></a>
+                                    <a href="javascript:;" @click="handleRemoveFavorite(product)" title="取消收藏" v-else><i class="el-icon-star-on"></i></a>
                                     <a href="javascript:;" @click="handleLinkCopy(product.productID)" title="复制产品链接"><i class="el-icon-link"></i></a>
                                 </div>
                             </div>

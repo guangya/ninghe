@@ -58,6 +58,18 @@ const vm = new Vue({
 			vm.searchParams = JSON.parse(JSON.stringify(vm.searchParamsBackup));
 			vm.handleProductSearch();
 		},
+		handleFavorite: async function(product) {
+			const productTable = vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME);
+			await productTable.where({'id': product.id}).modify({'favorite': 1});
+			product.favorite = 1;
+			this.$forceUpdate();
+		},
+		handleRemoveFavorite: async function(product) {
+			const productTable = vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME);
+			await productTable.where({'id': product.id}).modify({'favorite': 0});
+			product.favorite = 0;
+			this.$forceUpdate();
+		},
 		categoryUpgrade: async function(updates) {
 			const vm = this;
 			const categoryTable = vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME);
