@@ -14,14 +14,14 @@
                     <div class="search-bar">
                         <el-form :inline="true" size="mini">
                             <el-form-item label="标题">
-                                <el-input type="text" placeholder="例如：十二星座"></el-input>
+                                <el-input type="text" placeholder="例如：十二星座" v-model="subject"></el-input>
                             </el-form-item>
                             <el-form-item label="货号">
-                                <el-input type="text" placeholder="例如：120126"></el-input>
+                                <el-input type="text" placeholder="例如：120126" v-model="searchParams.productCargoNumber"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary">搜索</el-button>
-                                <el-button type="info">重置</el-button>
+                                <el-button type="primary" @click="handleProductSearch">搜索</el-button>
+                                <el-button type="info" @click="handleSearchReset">重置</el-button>
                             </el-form-item>
                         </el-form>
                     </div>

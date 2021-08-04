@@ -8,15 +8,23 @@ const vm = new Vue({
 		db: window.database.get(),
 		categories: [],
 		productList: [],
-		categoryId: null
+		categoryId: null,
+		subject: null,
+		searchParams: {
+			groupID: null,
+			productCargoNumber: null,
+			// subject: null
+		},
+		searchParamsBackup: null
 	},
 	mounted: async function() {
         const vm = this;
+		vm.searchParamsBackup = JSON.parse(JSON.stringify(vm.searchParams));
 
 		const categories = await vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME).orderBy('ordering').toArray();
 		vm.categories = categories;
 		
-		// vm.handleProductSearch();
+		vm.handleProductSearch();
 		vm.update();
 	},
 	methods: {
@@ -28,14 +36,27 @@ const vm = new Vue({
 			}).catch(() => {});
         },
 		handleProductSearch: async function () {
+			const vm = this;
 			const where = {};
-			if (this.categoryId) where['groupID'] = this.categoryId;
-			const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).where(where).limit(20).toArray();
+			for (const [key, value] of Object.entries(this.searchParams)) {
+				if (value != null && value != '') where[key] = value;
+			}
+
+			// 在没有设定搜索条件的时候，启用默认的搜索条件
+			if (Object.keys(where).length == 0) where['status'] = 'published';
+			const productList = await vm.db.table(window.database.PRODUCT_LIST_COLLECTION_NAME).where(where).filter(function(product) {
+				return vm.subject ? product.subject.indexOf(vm.subject) !== -1 : true;
+			}).limit(20).toArray();
 			vm.productList = productList;
 		},
 		handleCategoryChange: function(category) {
-			this.categoryId = category.id;
+			this.searchParams.groupID = category.id;
 			this.handleProductSearch();
+		},
+		handleSearchReset: function() {
+			const vm = this;
+			vm.searchParams = JSON.parse(JSON.stringify(vm.searchParamsBackup));
+			vm.handleProductSearch();
 		},
 		categoryUpgrade: async function(updates) {
 			const vm = this;
