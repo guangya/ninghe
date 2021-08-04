@@ -26,10 +26,10 @@
                         </el-form>
                     </div>
                 </el-header>
-                <el-container>
+                <el-container style="overflow-y: auto;">
                     <el-aside id="aside" width="180px">
                         <el-tree class="filter-tree" @node-click="handleCategoryChange" :data="categories" :props="{label: 'name',children:'subCategoryList'}" default-expand-all ref="tree"></el-tree>
-                        <ul style="display: none;">
+                        <!-- <ul style="display: none;">
                             <li v-for="category of categories" :key="category.id">
                                 <a class="category-group" href="#">
                                     <span>{{category.name}}</span>
@@ -40,11 +40,6 @@
                                             <span>{{subCategory.name}}</span>
                                         </a>
                                     </li>
-                                    <!-- <li>
-                                        <a class="category-item" href="#">
-                                            <span>冰雪奇缘2</span>
-                                        </a>
-                                    </li> -->
                                 </ul>
                             </li>
                             <li>
@@ -64,7 +59,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                     </el-aside>
                     <el-main id="main">
                         <el-card v-for="product of productList">
