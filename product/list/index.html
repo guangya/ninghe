@@ -64,7 +64,7 @@
                             </li>
                         </ul> -->
                     </el-aside>
-                    <el-main id="main">
+                    <el-main id="main" v-infinite-scroll="handleInfiniteScroll">
                         <el-card v-for="product of productList">
                             <div slot="header">
                                 <div class="product-subject" :title="product.subject">{{product.subject}}</div>
