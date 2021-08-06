@@ -26,8 +26,14 @@ const vm = new Vue({
 		const categories = await vm.db.table(window.database.PRODUCT_CATEGORIES_COLLECTION_NAME).orderBy('ordering').toArray();
 		vm.categories = categories;
 		
-		vm.handleProductSearch();
+		// vm.handleProductSearch();
 		vm.update();
+
+		// const response = await axios.get('../../data/product/3.json', {transformResponse: function (data) {
+		// 	// 返回的数据不是标准的json格式，需要做一次转换
+		// 	return data.trim().split("\n").map(item => JSON.parse(item));
+		// }});
+		// console.log('response: ', response);
 	},
 	methods: {
         handleLinkCopy: function(productId) {
@@ -90,7 +96,7 @@ const vm = new Vue({
 
 			for(const update of updates) {
 				// 当客户端第一次执行更新请求时，localVersion为null，这种情况下应该更新所有数据
-				if (localVersion || update.version <= localVersion) continue;
+				if (localVersion && update.version <= localVersion) continue;
 				
 				const response = await axios.get('../../' + update.link);
 				if ( response.status != 200 ) return vm.$message({'type': 'error', 'message': '数据加载失败'});
@@ -113,9 +119,13 @@ const vm = new Vue({
 			
 			for(const update of updates) {
 				// 当客户端第一次执行更新请求时，localVersion为null，这种情况下应该更新所有数据
-				if (localVersion || update.version <= localVersion) continue;
+				if (localVersion && update.version <= localVersion) continue;
 				
-				const response = await axios.get('../../' + update.link);
+				const response = await axios.get('../../' + update.link, {transformResponse: function (data) {
+					// 返回的数据不是标准的json格式，需要做一次转换
+					return data.trim().split("\n").map(item => JSON.parse(item));
+				}});
+				
 				if ( response.status != 200 ) return vm.$message({'type': 'error', 'message': '数据加载失败'});
 	
 				const data = response.data;
@@ -131,8 +141,13 @@ const vm = new Vue({
 		},
 		update: async function() {
 			const productDataVersion = window.localStorage.getItem(STORAGE_PRODUCT_DATA_VERSION);
-			const response = await axios.get('../../updates.json');
-			const updates = response.data;
+			const response = await axios.get('../../data/index.json', {transformResponse: function (data) {
+				// 返回的数据不是标准的json格式，需要做一次转换
+				return data.trim().split("\n").map(item => JSON.parse(item));
+			}});
+			const data = response.data;
+			// 由于数据是使用NeDB生成，根据NeDB的规则，会出现冗余的数据，这里需要获取最后也就是最新的一条
+			const updates = data instanceof Array && data.length > 1 ? data.pop() : data;
 
 			this.productUpgrade(updates.product);
 			this.categoryUpgrade(updates.category);
